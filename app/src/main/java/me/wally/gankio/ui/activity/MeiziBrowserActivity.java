@@ -16,7 +16,6 @@ import me.wally.gankio.UIRouterPath;
 import me.wally.gankio.api.bean.GankBean;
 import me.wally.gankio.base.BaseActivity;
 import me.wally.gankio.controller.ImageBrowserViewController;
-import me.wally.gankio.util.StatusBarUtil;
 
 /**
  * Package: me.wally.gankio.ui.activity
@@ -29,16 +28,15 @@ import me.wally.gankio.util.StatusBarUtil;
 @Route(path = UIRouterPath.MEIZI_DETAIL)
 public class MeiziBrowserActivity extends BaseActivity {
     public static final String KEY_MEI_ZI_BEANS = "key_mei_zi_beans";
-    public static final String KEY_MEI_ZI_BROWSER_INDEX = "key_mei_zi_browser_index";
 
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
 
     @Autowired(name = KEY_MEI_ZI_BEANS)
     ArrayList<GankBean.ResultsBean> mMeiziBeans;
-    @Autowired(name = KEY_MEI_ZI_BROWSER_INDEX)
+    @Autowired(name = ImageBrowserViewController.KEY_IMAGE_BROWSER_CURRENT_INDEX)
+    int mBrowserIndex;
 
-    private int mBrowserIndex;
     private boolean isHideToolBar = false;
 
     @Override
@@ -61,7 +59,7 @@ public class MeiziBrowserActivity extends BaseActivity {
         for (GankBean.ResultsBean bean : mMeiziBeans) {
             urls.add(bean.getUrl());
         }
-        ImageBrowserViewController browserViewController = ImageBrowserViewController.newInstance(urls);
+        ImageBrowserViewController browserViewController = ImageBrowserViewController.newInstance(urls, mBrowserIndex);
         getViewControllerManager().add(R.id.container, browserViewController, ImageBrowserViewController.class.getName(), true);
         browserViewController.setOnPhotoTapCallback(new ImageBrowserViewController.OnPhotoTapCallback() {
             @Override
@@ -78,14 +76,14 @@ public class MeiziBrowserActivity extends BaseActivity {
                     .translationY((-mToolBar.getHeight() * 1.0f))
                     .setInterpolator(new AccelerateInterpolator())
                     .start();
-            StatusBarUtil.hideStatusBar(this);
+            //StatusBarUtil.hideStatusBar(this);
         } else {
             //显示
             mToolBar.animate()
                     .translationY(0f)
                     .setInterpolator(new AccelerateInterpolator())
                     .start();
-            StatusBarUtil.showStatusBar(this);
+            //StatusBarUtil.showStatusBar(this);
         }
         isHideToolBar = !isHideToolBar;
     }

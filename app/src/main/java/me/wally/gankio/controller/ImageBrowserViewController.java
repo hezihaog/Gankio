@@ -29,17 +29,20 @@ import me.wally.gankio.widget.SlidingViewPager;
  */
 public class ImageBrowserViewController extends BaseUIViewController {
     public static final String KEY_IMAGE_URLS = "key_image_urls";
+    public static final String KEY_IMAGE_BROWSER_CURRENT_INDEX = "key_image_browser_current_index";
 
     @BindView(R.id.photo_view_pager)
     SlidingViewPager mPhotoViewPager;
 
-    private ArrayList<String> targetUrlList;
     private OnPhotoTapCallback mCallback;
+    private ArrayList<String> targetUrlList;
+    private int mBrowserCurrentIndex;
 
-    public static ImageBrowserViewController newInstance(ArrayList<String> urlList) {
+    public static ImageBrowserViewController newInstance(ArrayList<String> urlList, int browserCurrentIndex) {
         ImageBrowserViewController controller = new ImageBrowserViewController();
         Bundle args = new Bundle();
         args.putSerializable(KEY_IMAGE_URLS, urlList);
+        args.putInt(KEY_IMAGE_BROWSER_CURRENT_INDEX, browserCurrentIndex);
         controller.setProps(args);
         return controller;
     }
@@ -48,6 +51,7 @@ public class ImageBrowserViewController extends BaseUIViewController {
     public void onLayoutBefore() {
         super.onLayoutBefore();
         targetUrlList = (ArrayList<String>) getProps().getSerializable(KEY_IMAGE_URLS);
+        mBrowserCurrentIndex = (int) getProps().getSerializable(KEY_IMAGE_BROWSER_CURRENT_INDEX);
     }
 
     @Override
@@ -97,6 +101,7 @@ public class ImageBrowserViewController extends BaseUIViewController {
                 container.removeView((View) object);
             }
         });
+        mPhotoViewPager.setCurrentItem(mBrowserCurrentIndex);
     }
 
     @Override

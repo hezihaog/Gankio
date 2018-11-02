@@ -9,8 +9,8 @@ package me.wally.gankio.enums;
  * Email: hezihao@linghit.com
  */
 public enum DeleteFlag {
-    DELETED(1, "已删除"),
-    NO_DELETE(2, "未删除");
+    NO_DELETE(0, "未删除"),
+    DELETED(1, "已删除");
 
     private int mCode;
     private String mDesc;

@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import java.util.ArrayList;
 
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.controller.ImageBrowserViewController;
 import me.wally.gankio.ui.activity.ArticleDetailActivity;
 import me.wally.gankio.ui.activity.MeiziBrowserActivity;
 
@@ -39,7 +40,7 @@ public class UIRouterHelper {
                 .getInstance()
                 .build(UIRouterPath.MEIZI_DETAIL)
                 .withSerializable(MeiziBrowserActivity.KEY_MEI_ZI_BEANS, meziBeans)
-                .withInt(MeiziBrowserActivity.KEY_MEI_ZI_BROWSER_INDEX, browserIndex)
+                .withInt(ImageBrowserViewController.KEY_IMAGE_BROWSER_CURRENT_INDEX, browserIndex)
                 .navigation();
     }
 }

@@ -1,10 +1,10 @@
 package me.wally.gankio.db;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
-import io.objectbox.Box;
-import io.objectbox.BoxStore;
-import me.wally.gankio.db.model.entity.MyObjectBox;
+import me.wally.gankio.db.gen.DaoMaster;
+import me.wally.gankio.db.gen.DaoSession;
 
 /**
  * Package: me.wally.gankio.db
@@ -15,8 +15,10 @@ import me.wally.gankio.db.model.entity.MyObjectBox;
  * Email: hezihao@linghit.com
  */
 public class DatabaseManager {
-    private BoxStore mBoxStore;
+    private static final String DB_NAME = "gank_db";
     private Context mContext;
+    private DaoMaster mDaoMaster;
+    private DaoSession mDaoSession;
 
     private DatabaseManager() {
     }
@@ -29,21 +31,26 @@ public class DatabaseManager {
         return SingleHolder.INSTANCE;
     }
 
-    public void setContext(Context context) {
+    /**
+     * 初始化
+     */
+    public void initialize(Context context) {
         this.mContext = context.getApplicationContext();
+        DatabaseOpenHelper openHelper = new DatabaseOpenHelper(context, DB_NAME);
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        mDaoMaster = new DaoMaster(db);
+        mDaoSession = mDaoMaster.newSession();
     }
 
     public Context getContext() {
         return mContext;
     }
 
-    public <T> Box<T> getBox(Class<T> entityClass) {
-        if (mBoxStore == null) {
-            mBoxStore = MyObjectBox
-                    .builder()
-                    .androidContext(getContext())
-                    .build();
-        }
-        return mBoxStore.boxFor(entityClass);
+    public DaoMaster getDaoMaster() {
+        return mDaoMaster;
+    }
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
     }
 }

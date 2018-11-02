@@ -26,12 +26,11 @@ public class DatabaseWorker implements AppDelegate.IWorker {
 
     @Override
     public void onTerminate() {
-
     }
 
     @Override
     public void onExecute() {
-        mDatabaseManager.setContext(mContext);
+        mDatabaseManager.initialize(mContext);
     }
 
     @Override

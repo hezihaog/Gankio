@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.objectbox.Box;
 import me.wally.gankio.db.DatabaseManager;
 import me.wally.gankio.db.dao.IGankCollectionDao;
+import me.wally.gankio.db.gen.GankCollectionEntityDao;
 import me.wally.gankio.db.model.dto.GankCollectionDTO;
 import me.wally.gankio.db.model.entity.GankCollectionEntity;
-import me.wally.gankio.db.model.entity.GankCollectionEntity_;
 import me.wally.gankio.db.model.vo.GankCollectionVO;
 import me.wally.gankio.enums.DeleteFlag;
 import me.wally.gankio.enums.GankCollectionType;
@@ -23,10 +22,10 @@ import me.wally.gankio.enums.GankCollectionType;
  * Email: hezihao@linghit.com
  */
 public class GankCollectionDao implements IGankCollectionDao {
-    private final Box<GankCollectionEntity> mEntityBox;
+    private final GankCollectionEntityDao mEntityDao;
 
     public GankCollectionDao() {
-        mEntityBox = DatabaseManager.shareInstance().getBox(GankCollectionEntity.class);
+        mEntityDao = DatabaseManager.shareInstance().getDaoSession().getGankCollectionEntityDao();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class GankCollectionDao implements IGankCollectionDao {
         entity.createTime = new Date();
         entity.updateTime = new Date();
         entity.deleteFlag = DeleteFlag.DELETED.getCode();
-        long id = mEntityBox.put(entity);
+        long id = mEntityDao.insert(entity);
         return id > 0;
     }
 
@@ -53,7 +52,7 @@ public class GankCollectionDao implements IGankCollectionDao {
     public boolean removeCollection(String remoteCollectionId) {
         try {
             GankCollectionVO collection = getCollectionById(remoteCollectionId);
-            mEntityBox.remove(collection.getId());
+            mEntityDao.deleteByKey(collection.getId());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,11 +62,10 @@ public class GankCollectionDao implements IGankCollectionDao {
 
     @Override
     public GankCollectionVO getCollectionById(String remoteCollectionId) {
-        GankCollectionEntity collectionEntity = mEntityBox
-                .query()
-                .equal(GankCollectionEntity_.remoteId, remoteCollectionId)
-                .build()
-                .findUnique();
+        GankCollectionEntity collectionEntity = mEntityDao
+                .queryBuilder()
+                .where(GankCollectionEntityDao.Properties.RemoteId.eq(remoteCollectionId))
+                .unique();
         if (collectionEntity == null) {
             return null;
         }
@@ -76,22 +74,22 @@ public class GankCollectionDao implements IGankCollectionDao {
 
     @Override
     public boolean checkIsCollectionExist(String remoteCollectionId) {
-        GankCollectionEntity entity = mEntityBox
-                .query()
-                .equal(GankCollectionEntity_.remoteId, remoteCollectionId)
+        GankCollectionEntity entity = mEntityDao
+                .queryBuilder()
+                .where(GankCollectionEntityDao.Properties.RemoteId.eq(remoteCollectionId))
                 .build()
-                .findUnique();
+                .unique();
         return entity != null;
     }
 
     @Override
     public List<GankCollectionVO> getCollectionList(GankCollectionType collectionType) {
-        List<GankCollectionEntity> resultList = mEntityBox
-                .query()
-                .equal(GankCollectionEntity_.collectionType, collectionType.getType())
-                .orderDesc(GankCollectionEntity_.createTime)
+        List<GankCollectionEntity> resultList = mEntityDao
+                .queryBuilder()
+                .where(GankCollectionEntityDao.Properties.CollectionType.eq(collectionType.getType()))
+                .orderDesc(GankCollectionEntityDao.Properties.CreateTime)
                 .build()
-                .find();
+                .list();
         List<GankCollectionVO> result = new ArrayList<>();
         for (GankCollectionEntity entity : resultList) {
             result.add(buildVO(entity));

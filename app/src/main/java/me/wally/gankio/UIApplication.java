@@ -1,7 +1,9 @@
 package me.wally.gankio;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.support.multidex.MultiDex;
 
 /**
  * Package: me.wally.gankio
@@ -30,6 +32,12 @@ public class UIApplication extends Application {
 
     public static UIApplication shareInstance() {
         return mSelf;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override
