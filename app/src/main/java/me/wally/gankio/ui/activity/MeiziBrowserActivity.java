@@ -67,6 +67,13 @@ public class MeiziBrowserActivity extends BaseActivity {
                 toggleToolBar();
             }
         });
+        browserViewController.setOnPhotoPageChangeCallback(new ImageBrowserViewController.SimplePhotoPageChangeCallback() {
+
+            @Override
+            public void onPhotoPageSelected(int position) {
+                mToolBar.setTitle(mMeiziBeans.get(position).getDesc());
+            }
+        });
     }
 
     private void toggleToolBar() {
