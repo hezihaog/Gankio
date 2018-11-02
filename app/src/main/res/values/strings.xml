@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gankio</string>
+    <!-- 底部Tab的Title -->
+    <string name="page_home_title">首页</string>
+    <string name="page_welfare_title">福利</string>
+    <string name="page_collection_title">收藏</string>
+    <string name="page_home_android_title">Android</string>
+    <string name="page_home_ios_title">IOS</string>
+    <string name="page_home_web_title">Web</string>
+    <string name="page_collection_meizi_title">妹子</string>
+    <string name="page_collection_article_title">文章</string>
+    <string name="page_article_detail_title">文章详情</string>
+    <string name="page_web_browser_title">内置WebView页面</string>
+    <string name="page_image_browser_title">内置图片浏览页面</string>
+</resources>
