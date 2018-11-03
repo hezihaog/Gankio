@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Created by danney on 16/1/18.
  */
-public abstract class UIViewControllerActivity extends AppCompatActivity {
+public abstract class UIViewControllerActivity extends SupportActivity {
     private UIViewControllerManager mManager;
 
     public UIViewControllerManager getViewControllerManager() {
@@ -29,8 +30,8 @@ public abstract class UIViewControllerActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public Bundle getProps() {
-                    return getIntent().getBundleExtra("props");
+                public Bundle getArguments() {
+                    return getIntent().getBundleExtra("mArguments");
                 }
             });
         }
@@ -125,13 +126,13 @@ public abstract class UIViewControllerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressedSupport() {
         if (mManager != null) {
             if (!mManager.dispatchBackPressed()) {
-                super.onBackPressed();
+                super.onBackPressedSupport();
             }
         } else {
-            super.onBackPressed();
+            super.onBackPressedSupport();
         }
     }
 

@@ -69,13 +69,13 @@ public class UIViewControllerManager {
         vc.tag = tag;
         vc.setContext(host.getContext());
         //配置VC的参数，自身参数加上宿主的
-//        Bundle hostProps = host.getProps();
-//        Bundle vcProps = vc.getProps();
+//        Bundle hostProps = host.getArguments();
+//        Bundle vcProps = vc.getArguments();
 //        if (hostProps == null) {
 //            hostProps = new Bundle();
 //        }
 //        hostProps.putAll(vcProps);
-//        vc.setProps(hostProps);
+//        vc.setArguments(hostProps);
         //通知onCreate()
         vc.performCreate(null);
 
@@ -318,7 +318,7 @@ public class UIViewControllerManager {
 
         Context getContext();
 
-        Bundle getProps();
+        Bundle getArguments();
     }
 
     public void hideAllViewController() {

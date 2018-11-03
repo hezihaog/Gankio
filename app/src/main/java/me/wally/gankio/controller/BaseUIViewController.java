@@ -32,8 +32,10 @@ public abstract class BaseUIViewController extends UIViewController implements L
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for (IPresenter presenter : mPresenterList) {
-            presenter.onDestroy();
+        if (mPresenterList != null && mPresenterList.size() > 0) {
+            for (IPresenter presenter : mPresenterList) {
+                presenter.onDestroy();
+            }
         }
     }
 

@@ -1,16 +1,14 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
-import android.app.Activity;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -18,7 +16,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
+import me.wally.gankio.UIRouterPath;
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.base.BaseActivity;
+import me.wally.gankio.base.BaseFragment;
+import me.wally.gankio.controller.WebBrowserViewController;
 import me.wally.gankio.db.model.dto.GankCollectionDTO;
 import me.wally.gankio.enums.GankCollectionType;
 import me.wally.gankio.mvp.base.IPresenter;
@@ -28,47 +30,44 @@ import me.wally.gankio.mvp.presenter.impl.GankCollectionPresenter;
 import me.wally.gankio.mvp.presenter.impl.GankWelfarePresenter;
 import me.wally.gankio.mvp.view.IGankCollectionView;
 import me.wally.gankio.mvp.view.IGankWelfareView;
-import me.wally.gankio.ui.activity.ArticleDetailActivity;
 import me.wally.gankio.util.ToastUtil;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: ArticleDetailViewController
- * Date: on 2018/11/1  下午4:00
+ * Package: me.wally.gankio.ui.fragment
+ * FileName: ArticleDetailFragment
+ * Date: on 2018/11/1  下午3:56
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class ArticleDetailViewController extends BaseUIViewController implements
+@Route(path = UIRouterPath.ARTICLE_DETAIL)
+public class ArticleDetailFragment extends BaseFragment implements
         IGankCollectionView.IRemoveCollectionView,
         IGankCollectionView.ICheckCollectionView,
         IGankCollectionView.IAddCollectionView,
         IGankWelfareView {
+    public static final String KEY_DATA_LIST = "key_data_list";
+
+    @Autowired(name = KEY_DATA_LIST)
+    protected GankBean.ResultsBean mArticleBean;
+
     @BindView(R.id.image_iv)
     ImageView mImageIv;
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbar;
-    @BindView(R.id.app_bar)
-    AppBarLayout mAppBar;
-    @BindView(R.id.web_browser_container)
-    FrameLayout mWebBrowserContainer;
     @BindView(R.id.like_fab)
     FloatingActionButton mLikeFab;
 
-    private GankBean.ResultsBean mArticleBean;
     private WebBrowserViewController mWebBrowserViewController;
     private IGankCollectionPresenter mPresenter;
     private boolean mIsCollection;
     private IGankWelfarePresenter mWelfarePresenter;
 
-    public static ArticleDetailViewController newInstance(GankBean.ResultsBean articleBean) {
-        ArticleDetailViewController controller = new ArticleDetailViewController();
-        Bundle args = new Bundle();
-        args.putSerializable(ArticleDetailActivity.KEY_DATA_LIST, articleBean);
-        controller.setProps(args);
-        return controller;
+    @Override
+    protected Boolean setupSwipeBackEnable() {
+        return true;
     }
 
     @Override
@@ -85,14 +84,8 @@ public class ArticleDetailViewController extends BaseUIViewController implements
     }
 
     @Override
-    public void onLayoutBefore() {
-        super.onLayoutBefore();
-        mArticleBean = (GankBean.ResultsBean) getProps().getSerializable(ArticleDetailActivity.KEY_DATA_LIST);
-    }
-
-    @Override
     public int onLayoutId() {
-        return R.layout.page_article_detail;
+        return R.layout.fragment_article_detail;
     }
 
     @Override
@@ -102,7 +95,7 @@ public class ArticleDetailViewController extends BaseUIViewController implements
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity) getContext()).finish();
+                ((BaseActivity) getContext()).pop();
             }
         });
         mToolBar.setTitle(mArticleBean.getDesc());
@@ -136,12 +129,12 @@ public class ArticleDetailViewController extends BaseUIViewController implements
     }
 
     @Override
-    public boolean onBackPressed() {
+    public boolean onBackPressedSupport() {
         boolean isHandle = mWebBrowserViewController.onBackPressed();
         if (isHandle) {
             return true;
         } else {
-            return super.onBackPressed();
+            return super.onBackPressedSupport();
         }
     }
 
@@ -191,7 +184,7 @@ public class ArticleDetailViewController extends BaseUIViewController implements
 
     @Override
     public void onCheckIsCollectionError(Throwable error) {
-        finish();
+        getActivity().finish();
     }
 
     private void toggleLikeImageButton(boolean isLike) {

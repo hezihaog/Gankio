@@ -30,14 +30,14 @@ public class WebBrowserViewController extends BaseUIViewController {
         WebBrowserViewController controller = new WebBrowserViewController();
         Bundle args = new Bundle();
         args.putString(KEY_URL, url);
-        controller.setProps(args);
+        controller.setArguments(args);
         return controller;
     }
 
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
-        targetUrl = getProps().getString(KEY_URL);
+        targetUrl = getArguments().getString(KEY_URL);
     }
 
     @Override

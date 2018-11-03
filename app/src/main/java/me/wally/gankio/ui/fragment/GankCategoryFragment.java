@@ -1,4 +1,4 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +23,7 @@ import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.UIRouterHelper;
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.constant.GankConstant;
 import me.wally.gankio.enums.GankCategoryType;
 import me.wally.gankio.mvp.base.IPresenter;
@@ -30,16 +31,17 @@ import me.wally.gankio.mvp.presenter.IGankCategoryPresenter;
 import me.wally.gankio.mvp.presenter.impl.GankCategoryPresenter;
 import me.wally.gankio.mvp.view.IGankCategoryView;
 import me.wally.gankio.util.DimenUtil;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: GankCategoryViewController
+ * Package: me.wally.gankio.fragment
+ * FileName: GankCategoryFragment
  * Date: on 2018/10/31  下午2:53
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class GankCategoryViewController extends BaseUIViewController implements IGankCategoryView {
+public class GankCategoryFragment extends BaseFragment implements IGankCategoryView {
     private static final String KEY_CATEGORY_TYPE = "key_category_type";
 
     @BindView(R.id.home_recycler_view)
@@ -53,11 +55,11 @@ public class GankCategoryViewController extends BaseUIViewController implements 
     private int pageIndex = GankConstant.Api.DEFAULT_PAGE_INDEX;
     private ArrayList<GankBean.ResultsBean> mDataList = new ArrayList<>();
 
-    public static GankCategoryViewController newInstance(GankCategoryType categoryType) {
-        GankCategoryViewController controller = new GankCategoryViewController();
+    public static GankCategoryFragment newInstance(GankCategoryType categoryType) {
+        GankCategoryFragment controller = new GankCategoryFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_CATEGORY_TYPE, categoryType);
-        controller.setProps(args);
+        controller.setArguments(args);
         return controller;
     }
 
@@ -71,12 +73,12 @@ public class GankCategoryViewController extends BaseUIViewController implements 
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
-        mCategoryType = (GankCategoryType) getProps().getSerializable(KEY_CATEGORY_TYPE);
+        mCategoryType = (GankCategoryType) getArguments().getSerializable(KEY_CATEGORY_TYPE);
     }
 
     @Override
     public int onLayoutId() {
-        return R.layout.page_gank_category;
+        return R.layout.fragment_gank_category;
     }
 
     @Override
@@ -105,7 +107,7 @@ public class GankCategoryViewController extends BaseUIViewController implements 
         mCategoryTypeAdapter.addOnItemClickListener(new OnItemClickListener<GankBean.ResultsBean>() {
             @Override
             public void onItemClick(View view, int position, GankBean.ResultsBean resultsBean) {
-                UIRouterHelper.routerArticleDetail(mDataList.get(position));
+                UIRouterHelper.routerArticleDetail((SupportActivity) getActivity(), mDataList.get(position));
             }
         });
         adapter.addAdapter(mCategoryTypeAdapter);
@@ -133,7 +135,7 @@ public class GankCategoryViewController extends BaseUIViewController implements 
 
     @Override
     public String getPageTitle() {
-        mCategoryType = (GankCategoryType) getProps().getSerializable(KEY_CATEGORY_TYPE);
+        mCategoryType = (GankCategoryType) getArguments().getSerializable(KEY_CATEGORY_TYPE);
         if (mCategoryType.equals(GankCategoryType.ANDROID)) {
             return UIApplication.shareInstance().getResources().getString(R.string.page_home_android_title);
         } else if (mCategoryType.equals(GankCategoryType.IOS)) {

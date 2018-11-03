@@ -22,7 +22,7 @@ public abstract class UIViewController {
     static final int STARTED = 4;          // Created and started, not resumed.
     static final int RESUMED = 5;          // Created started and resumed.
     protected View view;
-    protected Bundle props;
+    protected Bundle mArguments;
     protected UIViewControllerManager viewControllerManager;
     int state = INITIALIZING;
     int containerViewId = 0;
@@ -41,8 +41,8 @@ public abstract class UIViewController {
         }
 
         @Override
-        public Bundle getProps() {
-            return props;
+        public Bundle getArguments() {
+            return mArguments;
         }
     };
 
@@ -57,12 +57,12 @@ public abstract class UIViewController {
         this.context = context;
     }
 
-    public Bundle getProps() {
-        return props;
+    public Bundle getArguments() {
+        return mArguments;
     }
 
-    public void setProps(Bundle props) {
-        this.props = props;
+    public void setArguments(Bundle mArguments) {
+        this.mArguments = mArguments;
     }
 
     public UIViewControllerManager getViewControllerManager() {

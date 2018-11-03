@@ -1,4 +1,4 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +26,7 @@ import me.wally.gankio.Const;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.db.model.dto.GankCollectionDTO;
 import me.wally.gankio.enums.GankCollectionType;
 import me.wally.gankio.mvp.base.IPresenter;
@@ -39,14 +40,14 @@ import me.wally.gankio.util.ToastUtil;
 import me.wally.gankio.viewbinder.WelfareViewBinder;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: WelfarePageViewController
+ * Package: me.wally.gankio.fragment
+ * FileName: WelfareFragment
  * Date: on 2018/10/30  下午4:14
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class WelfarePageViewController extends BaseUIViewController implements IGankWelfareView, IGankCollectionView.IAddCollectionView {
+public class WelfareFragment extends BaseFragment implements IGankWelfareView, IGankCollectionView.IAddCollectionView {
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.welfare_recycler_view)
@@ -59,8 +60,8 @@ public class WelfarePageViewController extends BaseUIViewController implements I
     private List<GankBean.ResultsBean> mDataList = new ArrayList<>();
     private MultiTypeAdapter mAdapter;
 
-    public static WelfarePageViewController newInstance() {
-        return new WelfarePageViewController();
+    public static WelfareFragment newInstance() {
+        return new WelfareFragment();
     }
 
     @Override
@@ -74,7 +75,7 @@ public class WelfarePageViewController extends BaseUIViewController implements I
 
     @Override
     public int onLayoutId() {
-        return R.layout.page_welfare;
+        return R.layout.fragment_welfare;
     }
 
     @Override

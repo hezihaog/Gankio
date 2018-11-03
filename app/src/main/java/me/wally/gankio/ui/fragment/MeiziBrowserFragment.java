@@ -1,4 +1,4 @@
-package me.wally.gankio.ui.activity;
+package me.wally.gankio.ui.fragment;
 
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,21 +12,23 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.wally.gankio.R;
+import me.wally.gankio.UIApplication;
 import me.wally.gankio.UIRouterPath;
 import me.wally.gankio.api.bean.GankBean;
 import me.wally.gankio.base.BaseActivity;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.controller.ImageBrowserViewController;
 
 /**
- * Package: me.wally.gankio.ui.activity
- * FileName: MeiziBrowserActivity
+ * Package: me.wally.gankio.ui.fragment
+ * FileName: MeiziBrowserFragment
  * Date: on 2018/11/2  下午3:29
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
 @Route(path = UIRouterPath.MEIZI_DETAIL)
-public class MeiziBrowserActivity extends BaseActivity {
+public class MeiziBrowserFragment extends BaseFragment {
     public static final String KEY_MEI_ZI_BEANS = "key_mei_zi_beans";
 
     @BindView(R.id.tool_bar)
@@ -40,8 +42,13 @@ public class MeiziBrowserActivity extends BaseActivity {
     private boolean isHideToolBar = false;
 
     @Override
+    protected Boolean setupSwipeBackEnable() {
+        return true;
+    }
+
+    @Override
     public int onLayoutId() {
-        return R.layout.activity_meizi_browser;
+        return R.layout.fragment_meizi_browser;
     }
 
     @Override
@@ -52,7 +59,7 @@ public class MeiziBrowserActivity extends BaseActivity {
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                pop();
             }
         });
         ArrayList<String> urls = new ArrayList<>();
@@ -60,7 +67,7 @@ public class MeiziBrowserActivity extends BaseActivity {
             urls.add(bean.getUrl());
         }
         ImageBrowserViewController browserViewController = ImageBrowserViewController.newInstance(urls, mBrowserIndex);
-        getViewControllerManager().add(R.id.container, browserViewController, ImageBrowserViewController.class.getName(), true);
+        ((BaseActivity) getActivity()).getViewControllerManager().add(R.id.container, browserViewController, ImageBrowserViewController.class.getName(), true);
         browserViewController.setOnPhotoTapCallback(new ImageBrowserViewController.OnPhotoTapCallback() {
             @Override
             public void onPhotoTap(ImageView view, float x, float y) {
@@ -74,6 +81,11 @@ public class MeiziBrowserActivity extends BaseActivity {
                 mToolBar.setTitle(mMeiziBeans.get(position).getDesc());
             }
         });
+    }
+
+    @Override
+    public String getPageTitle() {
+        return UIApplication.shareInstance().getResources().getString(R.string.page_image_browser_title);
     }
 
     private void toggleToolBar() {

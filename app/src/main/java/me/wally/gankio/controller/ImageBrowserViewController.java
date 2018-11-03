@@ -45,15 +45,15 @@ public class ImageBrowserViewController extends BaseUIViewController {
         Bundle args = new Bundle();
         args.putSerializable(KEY_IMAGE_URLS, urlList);
         args.putInt(KEY_IMAGE_BROWSER_CURRENT_INDEX, browserCurrentIndex);
-        controller.setProps(args);
+        controller.setArguments(args);
         return controller;
     }
 
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
-        targetUrlList = (ArrayList<String>) getProps().getSerializable(KEY_IMAGE_URLS);
-        mBrowserCurrentIndex = (int) getProps().getSerializable(KEY_IMAGE_BROWSER_CURRENT_INDEX);
+        targetUrlList = (ArrayList<String>) getArguments().getSerializable(KEY_IMAGE_URLS);
+        mBrowserCurrentIndex = (int) getArguments().getSerializable(KEY_IMAGE_BROWSER_CURRENT_INDEX);
     }
 
     @Override

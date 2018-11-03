@@ -1,4 +1,4 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,6 +21,7 @@ import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.UIRouterHelper;
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.db.model.vo.GankCollectionVO;
 import me.wally.gankio.enums.GankCollectionType;
 import me.wally.gankio.mvp.base.IPresenter;
@@ -28,16 +29,17 @@ import me.wally.gankio.mvp.presenter.IGankCollectionPresenter;
 import me.wally.gankio.mvp.presenter.impl.GankCollectionPresenter;
 import me.wally.gankio.mvp.view.IGankCollectionView;
 import me.wally.gankio.util.DimenUtil;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: ArticleViewController
+ * Package: me.wally.gankio.fragment
+ * FileName: ArticleFragment
  * Date: on 2018/11/1  上午10:31
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class ArticleViewController extends BaseUIViewController implements IGankCollectionView.IObtainCollectionView {
+public class ArticleFragment extends BaseFragment implements IGankCollectionView.IObtainCollectionView {
     @BindView(R.id.article_recycler_view)
     RecyclerView mArticleRecyclerView;
     @BindView(R.id.refresh_layout)
@@ -46,8 +48,8 @@ public class ArticleViewController extends BaseUIViewController implements IGank
     private IGankCollectionPresenter mCollectionPresenter;
     private VBaseAdapter<GankCollectionVO> mArticleAdapter;
 
-    public static ArticleViewController newInstance() {
-        return new ArticleViewController();
+    public static ArticleFragment newInstance() {
+        return new ArticleFragment();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class ArticleViewController extends BaseUIViewController implements IGank
 
     @Override
     public int onLayoutId() {
-        return R.layout.page_collection_article;
+        return R.layout.fragment_collection_article;
     }
 
     @Override
@@ -99,7 +101,7 @@ public class ArticleViewController extends BaseUIViewController implements IGank
                 bean.setUrl(vo.getUrl());
                 bean.setUsed(vo.isUsed());
                 bean.setWho(vo.getWho());
-                UIRouterHelper.routerArticleDetail(bean);
+                UIRouterHelper.routerArticleDetail((SupportActivity) getActivity(), bean);
             }
         });
         adapter.addAdapter(mArticleAdapter);

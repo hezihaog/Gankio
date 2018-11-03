@@ -1,4 +1,4 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,6 +22,7 @@ import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.UIRouterHelper;
 import me.wally.gankio.api.bean.GankBean;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.db.model.vo.GankCollectionVO;
 import me.wally.gankio.enums.GankCollectionType;
 import me.wally.gankio.mvp.base.IPresenter;
@@ -31,16 +32,17 @@ import me.wally.gankio.mvp.view.IGankCollectionView;
 import me.wally.gankio.util.DimenUtil;
 import me.wally.gankio.util.ToastUtil;
 import me.wally.gankio.widget.RatioImageView;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: MeiziViewController
+ * Package: me.wally.gankio.fragment
+ * FileName: MeiziFragment
  * Date: on 2018/11/1  上午10:31
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class MeiziViewController extends BaseUIViewController implements IGankCollectionView.IObtainCollectionView {
+public class MeiziFragment extends BaseFragment implements IGankCollectionView.IObtainCollectionView {
     @BindView(R.id.mezi_recycler_view)
     RecyclerView mMeziRecyclerView;
     @BindView(R.id.refresh_layout)
@@ -50,8 +52,8 @@ public class MeiziViewController extends BaseUIViewController implements IGankCo
     private VBaseAdapter<GankCollectionVO> mCollectionAdapter;
     private ArrayList<GankCollectionVO> mDataList = new ArrayList<>();
 
-    public static MeiziViewController newInstance() {
-        return new MeiziViewController();
+    public static MeiziFragment newInstance() {
+        return new MeiziFragment();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class MeiziViewController extends BaseUIViewController implements IGankCo
 
     @Override
     public int onLayoutId() {
-        return R.layout.page_collection_meizi;
+        return R.layout.fragment_collection_meizi;
     }
 
     @Override
@@ -117,7 +119,7 @@ public class MeiziViewController extends BaseUIViewController implements IGankCo
                     bean.setWho(vo.getWho());
                     meiziBeans.add(bean);
                 }
-                UIRouterHelper.routerMeiziDetail(meiziBeans, position);
+                UIRouterHelper.routerMeiziDetail((SupportActivity) getActivity(), meiziBeans, position);
             }
         });
         adapter.addAdapter(mCollectionAdapter);

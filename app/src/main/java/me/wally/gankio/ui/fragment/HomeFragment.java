@@ -1,4 +1,4 @@
-package me.wally.gankio.controller;
+package me.wally.gankio.ui.fragment;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
-import me.wally.gankio.controller.base.UIViewController;
-import me.wally.gankio.controller.base.UIViewControllerPageAdapter;
+import me.wally.gankio.adapter.CommonFragmentStatePageAdapter;
+import me.wally.gankio.base.BaseFragment;
 import me.wally.gankio.enums.GankCategoryType;
 import me.wally.gankio.widget.SlidingViewPager;
 
 /**
- * Package: me.wally.gankio.controller
- * FileName: HomePageViewController
+ * Package: me.wally.gankio.fragment
+ * FileName: HomeFragment
  * Date: on 2018/10/30  下午4:07
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class HomePageViewController extends BaseUIViewController {
+public class HomeFragment extends BaseFragment {
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.home_tab_layout)
@@ -31,38 +31,29 @@ public class HomePageViewController extends BaseUIViewController {
     @BindView(R.id.home_view_pager)
     SlidingViewPager mHomeViewPager;
 
-    public static HomePageViewController newInstance() {
-        return new HomePageViewController();
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
     }
 
     @Override
     public int onLayoutId() {
-        return R.layout.page_home;
+        return R.layout.fragment_home;
     }
 
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        final ArrayList<BaseUIViewController> controllers = new ArrayList<>();
-        controllers.add(GankCategoryViewController.newInstance(GankCategoryType.ANDROID));
-        controllers.add(GankCategoryViewController.newInstance(GankCategoryType.IOS));
-        controllers.add(GankCategoryViewController.newInstance(GankCategoryType.WEB));
+        final ArrayList<BaseFragment> fragments = new ArrayList<>();
+        fragments.add(GankCategoryFragment.newInstance(GankCategoryType.ANDROID));
+        fragments.add(GankCategoryFragment.newInstance(GankCategoryType.IOS));
+        fragments.add(GankCategoryFragment.newInstance(GankCategoryType.WEB));
         mHomeTabLayout.setupWithViewPager(mHomeViewPager);
-        mHomeViewPager.setAdapter(new UIViewControllerPageAdapter(getViewControllerManager()) {
-            @Override
-            public UIViewController getItem(int position) {
-                return controllers.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return controllers.size();
-            }
+        mHomeViewPager.setAdapter(new CommonFragmentStatePageAdapter(getChildFragmentManager(), fragments) {
 
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
-                return controllers.get(position).getPageTitle();
+                return fragments.get(position).getPageTitle();
             }
         });
         mHomeViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -71,7 +62,7 @@ public class HomePageViewController extends BaseUIViewController {
                 super.onPageSelected(position);
             }
         });
-        mHomeViewPager.setOffscreenPageLimit(controllers.size());
+        mHomeViewPager.setOffscreenPageLimit(fragments.size());
     }
 
     @Override
