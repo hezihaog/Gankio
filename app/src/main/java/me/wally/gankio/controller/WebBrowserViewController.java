@@ -1,7 +1,9 @@
 package me.wally.gankio.controller;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -56,9 +58,9 @@ public class WebBrowserViewController extends BaseUIViewController {
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
         mWebView.setWebViewClient(new WebViewClient() {
-
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                mWebView.loadUrl(url);
                 return true;
             }
         });
