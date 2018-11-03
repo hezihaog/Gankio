@@ -23,6 +23,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import me.wally.gankio.controller.base.UIViewControllerManager;
 import me.wally.gankio.mvp.base.IPresenter;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
@@ -39,7 +40,7 @@ public abstract class BaseFragment extends SwipeBackFragment implements LayoutCa
     private ArrayList<IPresenter> mPresenterList;
 
     public FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultHorizontalAnimator();
+        return new DefaultVerticalAnimator();
     }
 
     @Override

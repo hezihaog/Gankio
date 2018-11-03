@@ -9,6 +9,7 @@ import java.util.Map;
 import me.wally.gankio.worker.DatabaseWorker;
 import me.wally.gankio.worker.LogWorker;
 import me.wally.gankio.worker.RouterWorker;
+import me.wally.gankio.worker.X5WebWorker;
 
 /**
  * Package: me.wally.gankio
@@ -39,6 +40,7 @@ public class AppDelegate {
         addWorker(new LogWorker());
         addWorker(new DatabaseWorker());
         addWorker(new RouterWorker());
+        addWorker(new X5WebWorker());
         //这里添加自定义的Worker类
         for (Map.Entry<Integer, IWorker> entry : mWorkerList.entrySet()) {
             entry.getValue().onCreate(context, isDebug);
