@@ -1,9 +1,12 @@
 package me.wally.gankio.ui.fragment;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
+
+    @Override
     public int onLayoutId() {
         return R.layout.fragment_home;
     }
@@ -43,6 +52,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        ImmersionBar.with(this).titleBar(mToolBar);
         final ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(GankCategoryFragment.newInstance(GankCategoryType.ANDROID));
         fragments.add(GankCategoryFragment.newInstance(GankCategoryType.IOS));

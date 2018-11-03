@@ -11,6 +11,7 @@ import com.dingmouren.layoutmanagergroup.slide.ItemConfig;
 import com.dingmouren.layoutmanagergroup.slide.ItemTouchHelperCallback;
 import com.dingmouren.layoutmanagergroup.slide.OnSlideListener;
 import com.dingmouren.layoutmanagergroup.slide.SlideLayoutManager;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -65,6 +66,12 @@ public class WelfareFragment extends BaseFragment implements IGankWelfareView, I
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
+
+    @Override
     protected void onSetupPresenters(ArrayList<IPresenter> presenterList) {
         super.onSetupPresenters(presenterList);
         mWelfarePresenter = new GankWelfarePresenter(this);
@@ -81,6 +88,7 @@ public class WelfareFragment extends BaseFragment implements IGankWelfareView, I
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        ImmersionBar.with(this).titleBar(mToolBar);
         mAdapter = new MultiTypeAdapter();
         mAdapter
                 .register(GankBean.ResultsBean.class)

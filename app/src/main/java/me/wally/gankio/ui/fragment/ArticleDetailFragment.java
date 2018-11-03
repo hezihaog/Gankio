@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 
@@ -66,6 +67,12 @@ public class ArticleDetailFragment extends BaseFragment implements
     private IGankWelfarePresenter mWelfarePresenter;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
+
+    @Override
     protected Boolean setupSwipeBackEnable() {
         return true;
     }
@@ -91,6 +98,7 @@ public class ArticleDetailFragment extends BaseFragment implements
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        ImmersionBar.with(this).titleBar(mToolBar);
         mToolBar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,8 +138,7 @@ public class ArticleDetailFragment extends BaseFragment implements
 
     @Override
     public boolean onBackPressedSupport() {
-        boolean isHandle = mWebBrowserViewController.onBackPressed();
-        if (isHandle) {
+        if (mWebBrowserViewController.onBackPressed()) {
             return true;
         } else {
             return super.onBackPressedSupport();

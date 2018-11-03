@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,12 @@ public class MeiziBrowserFragment extends BaseFragment {
     private boolean isHideToolBar = false;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
+
+    @Override
     protected Boolean setupSwipeBackEnable() {
         return true;
     }
@@ -54,6 +61,7 @@ public class MeiziBrowserFragment extends BaseFragment {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        ImmersionBar.with(this).titleBar(mToolBar);
         mToolBar.setTitle(mMeiziBeans.get(mBrowserIndex).getDesc());
         mToolBar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {

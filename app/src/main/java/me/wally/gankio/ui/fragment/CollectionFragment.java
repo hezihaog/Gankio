@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 
+import com.gyf.barlibrary.ImmersionBar;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -34,6 +36,12 @@ public class CollectionFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
+
+    @Override
     public int onLayoutId() {
         return R.layout.fragment_collection;
     }
@@ -41,6 +49,7 @@ public class CollectionFragment extends BaseFragment {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        ImmersionBar.with(this).titleBar(mToolBar);
         mCollectionTabLayout.setupWithViewPager(mCollectionViewPager);
         final ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(MeiziFragment.newInstance());
