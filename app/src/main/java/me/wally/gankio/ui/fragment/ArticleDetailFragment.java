@@ -1,6 +1,7 @@
 package me.wally.gankio.ui.fragment;
 
 import android.content.res.ColorStateList;
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;

@@ -31,6 +31,7 @@ import me.wally.gankio.mvp.presenter.IGankCategoryPresenter;
 import me.wally.gankio.mvp.presenter.impl.GankCategoryPresenter;
 import me.wally.gankio.mvp.view.IGankCategoryView;
 import me.wally.gankio.util.DimenUtil;
+import me.wally.gankio.util.ToastUtil;
 import me.yokeyword.fragmentation.SupportActivity;
 
 /**
@@ -171,11 +172,13 @@ public class GankCategoryFragment extends BaseFragment implements IGankCategoryV
 
     @Override
     public void onLoadGankAtCategoryFail(String msg, boolean isRefresh) {
+        ToastUtil.toast(getContext(), msg);
         finishLoadStatus(isRefresh, false);
     }
 
     @Override
     public void onLoadGankAtCategoryError(Throwable error, boolean isRefresh) {
+        ToastUtil.toast(getContext(), error.getMessage());
         finishLoadStatus(isRefresh, false);
     }
 
