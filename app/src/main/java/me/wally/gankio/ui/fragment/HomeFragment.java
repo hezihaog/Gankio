@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.gyf.barlibrary.ImmersionBar;
 
@@ -50,9 +51,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImmersionBar.with(this).titleBar(mToolBar);
+    }
+
+    @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        ImmersionBar.with(this).titleBar(mToolBar);
         final ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(GankCategoryFragment.newInstance(GankCategoryType.ANDROID));
         fragments.add(GankCategoryFragment.newInstance(GankCategoryType.IOS));

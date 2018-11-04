@@ -1,9 +1,12 @@
 package me.wally.gankio.ui.fragment;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
 import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
@@ -86,9 +89,14 @@ public class WelfareFragment extends BaseFragment implements IGankWelfareView, I
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImmersionBar.with(this).titleBar(mToolBar);
+    }
+
+    @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        ImmersionBar.with(this).titleBar(mToolBar);
         mAdapter = new MultiTypeAdapter();
         mAdapter
                 .register(GankBean.ResultsBean.class)
