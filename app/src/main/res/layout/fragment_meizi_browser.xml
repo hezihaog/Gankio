@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom|end"
         android:layout_margin="@dimen/m15"
-        android:src="@android:drawable/stat_sys_download" />
+        android:src="@drawable/ic_file_download" />
 
     <include layout="@layout/layout_tool_bar" />
 </FrameLayout>
