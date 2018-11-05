@@ -111,7 +111,7 @@ public class MeiziBrowserFragment extends BaseFragment {
         RxPermissions rxPermissions = new RxPermissions(getActivity());
         RxView
                 .clicks(mDownloadImageIv)
-                .compose(rxPermissions.ensureEach(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .compose(rxPermissions.ensureEachCombined(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
