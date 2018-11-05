@@ -128,6 +128,15 @@ public class ImageBrowserViewController extends BaseUIViewController {
         mPhotoViewPager.setCurrentItem(mBrowserCurrentIndex);
     }
 
+    public String getCurrentBrowserImageUrl() {
+        int currentItemPosition = getCurrentBrowserIndex();
+        return targetUrlList.get(currentItemPosition);
+    }
+
+    public int getCurrentBrowserIndex() {
+        return mPhotoViewPager.getCurrentItem();
+    }
+
     @Override
     public String getPageTitle() {
         return UIApplication.shareInstance().getResources().getString(R.string.page_image_browser_title);

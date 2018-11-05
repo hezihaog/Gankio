@@ -12,4 +12,6 @@
     <string name="page_article_detail_title">文章详情</string>
     <string name="page_web_browser_title">内置WebView页面</string>
     <string name="page_image_browser_title">内置图片浏览页面</string>
+    <!-- 提示信息 -->
+    <string name="picture_save_success_tip">图片已保存至 %s 文件夹</string>
 </resources>

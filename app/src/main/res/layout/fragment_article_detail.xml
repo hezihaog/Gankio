@@ -58,7 +58,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/m15"
-        android:clickable="true"
         android:src="@mipmap/ic_heart"
         app:backgroundTint="@color/C4"
         app:layout_anchor="@id/app_bar"

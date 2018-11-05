@@ -23,7 +23,6 @@ import io.reactivex.subjects.BehaviorSubject;
 import me.wally.gankio.controller.base.UIViewControllerManager;
 import me.wally.gankio.mvp.base.IPresenter;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
-import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
@@ -39,8 +38,9 @@ public abstract class BaseFragment extends SwipeBackFragment implements LayoutCa
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     private ArrayList<IPresenter> mPresenterList;
 
+    @Override
     public FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultVerticalAnimator();
+        return new DefaultHorizontalAnimator();
     }
 
     @Override
@@ -192,5 +192,9 @@ public abstract class BaseFragment extends SwipeBackFragment implements LayoutCa
 
     public UIViewControllerManager getViewControllerManager() {
         return ((BaseActivity)getActivity()).getViewControllerManager();
+    }
+
+    public BaseFragment getSelf() {
+        return this;
     }
 }
