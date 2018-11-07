@@ -18,6 +18,7 @@ import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import me.wally.gankio.controller.base.UIViewControllerManager;
@@ -37,6 +38,7 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 public abstract class BaseFragment extends SwipeBackFragment implements LayoutCallback, LifecycleProvider<FragmentEvent> {
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     private ArrayList<IPresenter> mPresenterList;
+    private Unbinder mButterKnifeBinder;
 
     @Override
     public FragmentAnimator onCreateFragmentAnimator() {
@@ -109,7 +111,7 @@ public abstract class BaseFragment extends SwipeBackFragment implements LayoutCa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lifecycleSubject.onNext(FragmentEvent.CREATE_VIEW);
-        ButterKnife.bind(this, view);
+        mButterKnifeBinder = ButterKnife.bind(this, view);
     }
 
     @Override
@@ -158,6 +160,7 @@ public abstract class BaseFragment extends SwipeBackFragment implements LayoutCa
     public void onDestroyView() {
         lifecycleSubject.onNext(FragmentEvent.DESTROY_VIEW);
         super.onDestroyView();
+        mButterKnifeBinder.unbind();
     }
 
     @Override

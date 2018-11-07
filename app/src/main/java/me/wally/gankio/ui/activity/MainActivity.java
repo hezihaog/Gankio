@@ -7,12 +7,14 @@ import com.gyf.barlibrary.ImmersionBar;
 import me.wally.gankio.R;
 import me.wally.gankio.base.BaseActivity;
 import me.wally.gankio.ui.fragment.MainFragment;
+import me.wally.gankio.util.StatusBarUtil;
 
 public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.showStatusBar(this);
         ImmersionBar.with(this).init();
     }
 
