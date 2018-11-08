@@ -7,7 +7,6 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
-import butterknife.BindView;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 
@@ -22,8 +21,7 @@ import me.wally.gankio.UIApplication;
 public class WebBrowserViewController extends BaseUIViewController {
     public static final String KEY_URL = "key_url";
 
-    @BindView(R.id.web_view)
-    WebView mWebView;
+    private WebView mWebView;
 
     private String targetUrl;
 
@@ -49,6 +47,7 @@ public class WebBrowserViewController extends BaseUIViewController {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        mWebView = getView().findViewById(R.id.web_view);
         //初始化WebView
         WebSettings settings = mWebView.getSettings();
         settings.setUseWideViewPort(true);

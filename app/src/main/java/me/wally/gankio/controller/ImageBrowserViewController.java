@@ -15,7 +15,6 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.widget.SlidingViewPager;
@@ -32,8 +31,7 @@ public class ImageBrowserViewController extends BaseUIViewController {
     public static final String KEY_IMAGE_URLS = "key_image_urls";
     public static final String KEY_IMAGE_BROWSER_CURRENT_INDEX = "key_image_browser_current_index";
 
-    @BindView(R.id.photo_view_pager)
-    SlidingViewPager mPhotoViewPager;
+    private SlidingViewPager mPhotoViewPager;
 
     private OnPhotoTapCallback mPhotoTapCallback;
     private ArrayList<String> targetUrlList;
@@ -73,6 +71,7 @@ public class ImageBrowserViewController extends BaseUIViewController {
                 }
             }
         };
+        mPhotoViewPager = getView().findViewById(R.id.photo_view_pager);
         mPhotoViewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
