@@ -15,7 +15,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.zh.base.util.rx.RxLifecycleUtil;
 
 import java.util.ArrayList;
 
@@ -112,6 +112,7 @@ public class MeiziBrowserFragment extends BaseFragment {
         RxView
                 .clicks(mDownloadImageIv)
                 .compose(rxPermissions.ensureEachCombined(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .as(RxLifecycleUtil.bindLifecycle(this))
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
@@ -126,7 +127,7 @@ public class MeiziBrowserFragment extends BaseFragment {
                                     mMeiziBeans.get(currentBrowserIndex).getId())
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .compose(getSelf().<String>bindUntilEvent(FragmentEvent.DESTROY))
+                                    .as(RxLifecycleUtil.bindLifecycle(getSelf()))
                                     .subscribe(new Consumer<String>() {
                                         @Override
                                         public void accept(String resultPath) throws Exception {

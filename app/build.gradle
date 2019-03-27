@@ -1,32 +1,39 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.alibaba.arouter'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 27
-
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId "me.wally.gankio"
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 100
         versionName "1.0.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        flavorDimensions "100"
+        vectorDrawables.useSupportLibrary = true
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
+        multiDexEnabled true
 
         ndk {
             abiFilters 'armeabi'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
         }
 
         dexOptions {
             javaMaxHeapSize "4g"
             preDexLibraries = false
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 
     buildTypes {
@@ -45,6 +52,7 @@ android {
         checkReleaseBuilds false
         //禁止在构建时Lint进行严格检查导致中断构建
         abortOnError false
+        disable 'MissingTranslation', 'ExtraTranslation', 'GoogleAppIndexingWarning'
     }
 }
 
@@ -55,70 +63,33 @@ greendao {
     targetGenDir 'src/main/java'
 }
 
+def baseName = "service"
+def baseinfo = rootProject.ext.modules.get(baseName)
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "com.android.support:recyclerview-v7:27.1.1"
-    implementation "com.android.support:cardview-v7:27.1.1"
-    //logUtil
-    releaseImplementation 'com.apkfuns.logutils:library:1.5.1.1'
-    debugImplementation 'com.apkfuns.logutils:library:1.5.1.1'
-    //BottomBar
-    implementation 'com.roughike:bottom-bar:2.3.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    //Network
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.3"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    //RefreshLayout
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
-    //vLayout
-    implementation('com.alibaba.android:vlayout:1.2.8@aar') {
-        transitive = true
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //base
+    if (baseinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: baseName, version: baseinfo.version
+    } else {
+        api project(":$baseName")
     }
-    //vLayoutHelper
-    implementation 'com.github.lvtanxi:BaseVLayoutAdapterHelper:v1.0.2'
-    //LayoutManager
-    implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
-    //MultiType
-    implementation 'me.drakeet.multitype:multitype:3.4.4'
-    //PhotoView
-    implementation 'com.github.chrisbanes:PhotoView:2.1.4'
-    //ARouter
-    implementation 'com.alibaba:arouter-api:1.4.0'
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
-    //RxCache
-    implementation 'com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x'
-    implementation 'com.github.VictorAlbertos.Jolyglot:gson:0.0.4'
-    //6.0运行时权限
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    //greenDao
-    implementation 'org.greenrobot:greendao:3.2.2'
-    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.1'
-    //Fragment封装
-    implementation 'me.yokeyword:fragmentation:1.3.4'
-    implementation 'me.yokeyword:fragmentation-swipeback:1.3.4'
-    //RxLifecycle
-    implementation "com.trello.rxlifecycle2:rxlifecycle-components:2.2.1"
-    implementation "com.trello.rxlifecycle2:rxlifecycle-navi:2.2.1"
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
-    //Android Lifecycle
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    //home
+//    if (homeinfo.alone) {
+//        api group: rootProject.ext.moduleGroup, name: homeName, version: homeinfo.version
+//    } else {
+//        api project(":$homeName")
+//    }
+
+    api rootProject.ext.deps.free_proGuard
+
+    annotationProcessor rootProject.ext.deps.ARoutercompiler
+    annotationProcessor rootProject.ext.deps.jetpack_lifecycle_compiler
+
+    annotationProcessor rootProject.ext.deps.butterknife_compiler
+
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.runner
+    androidTestImplementation rootProject.ext.deps.espresso
 }

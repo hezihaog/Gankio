@@ -1,0 +1,114 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    //resourcePrefix project.name + "_"
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 100
+        versionName "1.0.0"
+
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api rootProject.ext.deps.v7
+    api rootProject.ext.deps.rv
+    api rootProject.ext.deps.design
+    api rootProject.ext.deps.multidex
+    api rootProject.ext.deps.constraint
+
+    //http
+    api rootProject.ext.deps.gson
+    api rootProject.ext.deps.okhttp
+    api rootProject.ext.deps.retrofit2
+    api rootProject.ext.deps.retrofit2_converter_gson
+    api rootProject.ext.deps.retrofit2_adapter_rxjava2
+    api rootProject.ext.deps.rx_cache
+    api rootProject.ext.deps.rx_cache_gson
+
+    //图片加载
+    api rootProject.ext.deps.glide
+    api rootProject.ext.deps.photo_view
+
+    //butter knife
+    api rootProject.ext.deps.butterknife
+    annotationProcessor rootProject.ext.deps.butterknife_compiler
+
+    //第三方库
+    api rootProject.ext.deps.mmkv
+    api rootProject.ext.deps.banner
+    api rootProject.ext.deps.indicator
+    api rootProject.ext.deps.multitype
+    api rootProject.ext.deps.smartrefresh
+    api rootProject.ext.deps.smartrefresh_header
+    api rootProject.ext.deps.logutils
+    api rootProject.ext.deps.translucent_bar
+    api rootProject.ext.deps.vlayout
+    api rootProject.ext.deps.vlayout_helper
+    api rootProject.ext.deps.rv_layout_manager
+
+    //Rx
+    api rootProject.ext.deps.rx_java
+    api rootProject.ext.deps.rx_android
+    api rootProject.ext.deps.rx_autodispose
+    api rootProject.ext.deps.rx_autodispose_archcomponents
+    api rootProject.ext.deps.rx_relay2
+    api rootProject.ext.deps.rx_binding2
+    api rootProject.ext.deps.rx_permission
+
+    //database
+    api rootProject.ext.deps.green_dao
+    api rootProject.ext.deps.green_dao_upgrade_helper
+
+    //JetPack组件
+    api rootProject.ext.deps.jetpack_lifecycle
+    annotationProcessor rootProject.ext.deps.jetpack_lifecycle_compiler
+
+    api rootProject.ext.deps.wcdb
+    api rootProject.ext.deps.jetpack_room
+    api rootProject.ext.deps.jetpack_room_rx
+    //annotationProcessor rootProject.ext.deps.jetpack_room_compiler
+
+    api rootProject.ext.deps.fragmentation
+    api rootProject.ext.deps.fragmentation_swipe
+
+    //ARouter
+    api rootProject.ext.deps.ARouter
+    //annotationProcessor rootProject.ext.deps.ARoutercompiler
+
+    debugApi(rootProject.ext.deps.doraemonkit) {
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+    }
+    releaseApi(rootProject.ext.deps.doraemonkit_noop) {
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+    }
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.runner
+    androidTestImplementation rootProject.ext.deps.espresso
+}

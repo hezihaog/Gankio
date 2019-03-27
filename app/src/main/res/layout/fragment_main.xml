@@ -12,10 +12,12 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/main_bottom_bar_height" />
 
-    <com.roughike.bottombar.BottomBar
+    <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_bottom_bar_height"
         android:layout_gravity="bottom"
-        app:bb_tabXmlResource="@xml/bottombar_tabs" />
+        app:itemIconTint="@color/selector_tab_color"
+        app:itemTextColor="@color/selector_tab_color"
+        app:menu="@menu/bottom_bar_tabs" />
 </FrameLayout>

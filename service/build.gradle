@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    //resourcePrefix project.name + "_"
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 100
+        versionName "1.0.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        AROUTER_MODULE_NAME  : project.getName(),
+                        AROUTER_GENERATE_DOC : "enable",
+                        "room.schemaLocation": "$projectDir/schemas".toString()
+                ]
+            }
+        }
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+def baseName = "base"
+def baseinfo = rootProject.ext.modules.get(baseName)
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    if (baseinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: baseName, version: baseinfo.version
+    } else {
+        api project(":$baseName")
+    }
+    api rootProject.ext.deps.jetpack_lifecycle
+    annotationProcessor rootProject.ext.deps.jetpack_lifecycle_compiler
+    annotationProcessor rootProject.ext.deps.jetpack_room_compiler
+
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.runner
+    androidTestImplementation rootProject.ext.deps.espresso
+}

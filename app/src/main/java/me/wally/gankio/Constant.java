@@ -8,7 +8,7 @@ package me.wally.gankio;
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-public class Const {
+public class Constant {
     public static final class Default {
         public static final int GIRL_RANDOM_SIZE = 5;
     }

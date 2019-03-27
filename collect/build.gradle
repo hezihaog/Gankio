@@ -1,0 +1,81 @@
+def info = rootProject.ext.modules.get(project.name)
+if (info.alone) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    resourcePrefix project.name + "_"
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 100
+        versionName "1.0.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        debug {
+            if (!info.alone) {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+def baseName = "service"
+def baseinfo = rootProject.ext.modules.get(baseName)
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //base
+    if (baseinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: baseName, version: baseinfo.version
+    } else {
+        api project(":$baseName")
+    }
+
+    annotationProcessor rootProject.ext.deps.ARoutercompiler
+    annotationProcessor rootProject.ext.deps.jetpack_lifecycle_compiler
+
+    testImplementation rootProject.ext.deps.junit
+    androidTestImplementation rootProject.ext.deps.runner
+    androidTestImplementation rootProject.ext.deps.espresso
+
+    //debugImplementation rootProject.ext.deps.amitshekhar_debug_database
+}

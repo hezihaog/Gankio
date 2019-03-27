@@ -1,1 +1,2 @@
+include ':base', ':service', ':home', ':welfare', ':collect'
 include ':app'

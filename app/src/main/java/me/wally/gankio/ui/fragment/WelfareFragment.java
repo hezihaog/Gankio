@@ -26,7 +26,7 @@ import butterknife.BindView;
 import me.drakeet.multitype.ClassLinker;
 import me.drakeet.multitype.ItemViewBinder;
 import me.drakeet.multitype.MultiTypeAdapter;
-import me.wally.gankio.Const;
+import me.wally.gankio.Constant;
 import me.wally.gankio.R;
 import me.wally.gankio.UIApplication;
 import me.wally.gankio.api.bean.GankBean;
@@ -160,7 +160,7 @@ public class WelfareFragment extends BaseFragment implements IGankWelfareView, I
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mWelfarePresenter.getGankWelfare(Const.Default.GIRL_RANDOM_SIZE, true);
+                mWelfarePresenter.getGankWelfare(Constant.Default.GIRL_RANDOM_SIZE, true);
             }
         });
         mRefreshLayout.setEnableOverScrollDrag(false);

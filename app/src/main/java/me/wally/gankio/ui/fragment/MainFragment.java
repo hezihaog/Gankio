@@ -1,7 +1,8 @@
 package me.wally.gankio.ui.fragment;
 
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
 
 import java.util.LinkedHashMap;
 
@@ -12,7 +13,7 @@ import me.wally.gankio.base.BaseFragment;
 
 public class MainFragment extends BaseFragment {
     @BindView(R.id.bottom_bar)
-    BottomBar mBottomBar;
+    BottomNavigationView mBottomBar;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -45,11 +46,17 @@ public class MainFragment extends BaseFragment {
             fragments.put(R.id.tab_welfare, findChildFragment(WelfareFragment.class));
             fragments.put(R.id.tab_collection, findChildFragment(CollectionFragment.class));
         }
-        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+        mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(int tabId) {
-                BaseFragment fragment = fragments.get(tabId);
-                showHideFragment(fragment);
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if (fragments.containsKey(id)) {
+                    BaseFragment fragment = fragments.get(id);
+                    showHideFragment(fragment);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
     }
