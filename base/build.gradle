@@ -54,10 +54,6 @@ dependencies {
     api rootProject.ext.deps.glide
     api rootProject.ext.deps.photo_view
 
-    //butter knife
-    api rootProject.ext.deps.butterknife
-    annotationProcessor rootProject.ext.deps.butterknife_compiler
-
     //第三方库
     api rootProject.ext.deps.mmkv
     api rootProject.ext.deps.banner
@@ -91,14 +87,14 @@ dependencies {
     api rootProject.ext.deps.wcdb
     api rootProject.ext.deps.jetpack_room
     api rootProject.ext.deps.jetpack_room_rx
-    //annotationProcessor rootProject.ext.deps.jetpack_room_compiler
+    annotationProcessor rootProject.ext.deps.jetpack_room_compiler
 
     api rootProject.ext.deps.fragmentation
     api rootProject.ext.deps.fragmentation_swipe
 
     //ARouter
     api rootProject.ext.deps.ARouter
-    //annotationProcessor rootProject.ext.deps.ARoutercompiler
+    annotationProcessor rootProject.ext.deps.ARoutercompiler
 
     debugApi(rootProject.ext.deps.doraemonkit) {
         exclude group: 'com.squareup.okhttp3'

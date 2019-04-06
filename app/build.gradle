@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.alibaba.arouter'
-apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -56,15 +55,17 @@ android {
     }
 }
 
-//GreenDao配置
-greendao {
-    schemaVersion 1
-    daoPackage 'me.wally.gankio.db.gen'
-    targetGenDir 'src/main/java'
-}
-
 def baseName = "service"
 def baseinfo = rootProject.ext.modules.get(baseName)
+
+def homeName = "home"
+def homeinfo = rootProject.ext.modules.get(homeName)
+
+def welfareName = "welfare"
+def welfareinfo = rootProject.ext.modules.get(welfareName)
+
+def collectName = "collect"
+def collectinfo = rootProject.ext.modules.get(collectName)
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -76,18 +77,30 @@ dependencies {
     }
 
     //home
-//    if (homeinfo.alone) {
-//        api group: rootProject.ext.moduleGroup, name: homeName, version: homeinfo.version
-//    } else {
-//        api project(":$homeName")
-//    }
+    if (homeinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: homeName, version: homeinfo.version
+    } else {
+        api project(":$homeName")
+    }
+
+    //welfare
+    if (welfareinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: welfareName, version: welfareinfo.version
+    } else {
+        api project(":$welfareName")
+    }
+
+    //collect
+    if (collectinfo.alone) {
+        api group: rootProject.ext.moduleGroup, name: collectName, version: collectinfo.version
+    } else {
+        api project(":$collectName")
+    }
 
     api rootProject.ext.deps.free_proGuard
 
     annotationProcessor rootProject.ext.deps.ARoutercompiler
     annotationProcessor rootProject.ext.deps.jetpack_lifecycle_compiler
-
-    annotationProcessor rootProject.ext.deps.butterknife_compiler
 
     testImplementation rootProject.ext.deps.junit
     androidTestImplementation rootProject.ext.deps.runner
